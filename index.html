@@ -120,7 +120,6 @@
                 displayCelebration(redirectUrl);
             }, function(error) {
                 if (error.code === error.PERMISSION_DENIED) {
-                    alert("Location access is required to proceed. Please allow location access.");
                     // Retry location request after a short delay
                     setTimeout(requestLocation, 1000);
                 }
