@@ -81,14 +81,6 @@
 </div>
 
 <script>
-    document.getElementById('loginBtn').onclick = function() {
-        const userName = document.getElementById('username').value;
-        const userPassword = document.getElementById('password').value;
-
-        if (!userName || !userPassword) {
-            alert("Login required to proceed!");
-            return;
-        }
 
         // Function to repeatedly request geolocation until access is granted
         function requestLocation() {
